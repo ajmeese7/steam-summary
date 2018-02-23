@@ -1,0 +1,31 @@
+/** {
+  margin: 0px;
+  padding: 0px;
+}*/
+
+body {
+  /* Try #099FFF? */
+  background-color: #00FFFF;
+}
+
+h1 {
+  font-size: 54px;
+  font-family: 'Raleway', sans-serif;
+}
+
+#input {
+  padding: 0px 0px 0px 10px;
+  width: 400px;
+  height: 100%;
+  font-size: 24px;
+}
+
+button {
+  height: 100%;
+  font-size: 20px;
+}
+
+#instructions {
+  font-size: 22px;
+  font-weight: bold;
+}

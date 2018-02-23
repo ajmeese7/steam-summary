@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Steam Summary</title>
+        <!-- TODO: Finish meta tags! FIND NODE.JS SERVER!!! -->
+        <meta charset="UTF-8">
+        <meta name="author" content="ajmeese7">
+        <meta name="description" content="The best way to completely visualize your Steam profile."> <!-- TODO:: FIX -->
+        <meta name="keywords" content="steam profile visualizer, steam, profile summary">
+
+        <!-- TODO: Download for offline use; find better font? -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:700">
+        <link rel="stylesheet" type="text/css" href="style.css" />
+        <script type="text/javascript" src="steam.js"></script>
+    </head>
+    <body>
+      <!-- TODO: Use PHP for constant elements such as navigation? -->
+      <h1>Steam Summary</h1>
+      <p id="instructions">Enter your username:</p>
+      <div style="height: 40px;">
+        <input id="input" type="text" onkeyup="validateInput()" placeholder="ex. ajmeese7, ECH0BOLT, ih8n1ck">
+        <button type="submit" value="">Submit</button>
+      </div>
+    </body>
+</html>
