@@ -1,31 +1,25 @@
-/** {
-  margin: 0px;
-  padding: 0px;
-}*/
+* {
+  font-family: 'Barlow Semi Condensed', sans-serif;
+}
 
 body {
-  /* Try #099FFF? */
-  background-color: #00FFFF;
-}
-
-h1 {
-  font-size: 54px;
-  font-family: 'Raleway', sans-serif;
-}
-
-#input {
-  padding: 0px 0px 0px 10px;
-  width: 400px;
-  height: 100%;
-  font-size: 24px;
-}
-
-button {
-  height: 100%;
-  font-size: 20px;
+  /* Try #099FFF, #00FFFF, #00adee? */
+  background-color: #000000;
 }
 
 #instructions {
-  font-size: 22px;
-  font-weight: bold;
+  text-align: center;
+  font-weight: 200;
+  padding-top: 4%;
+  padding-bottom: 5px;
+  /* Change back if body color is changed */
+  color: white;
+}
+
+#input {
+  padding: 0 15px;
+  border: 0;
+  width: 190px;
+  height: 100%;
+  font-size: 16px;
 }
