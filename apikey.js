@@ -1,0 +1,3 @@
+var apikey = {
+  key : "EB6DFFF8435F0B0916012292B09F8A26"
+}

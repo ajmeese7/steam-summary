@@ -1,15 +1,19 @@
 window.onload = function() {
   var input = document.getElementById("input");
+  var username = "";
   input.onkeyup = function(e) {
     // Runs on enter press (when key is released)
     if (e.keyCode == 13) {
-       validate();
+       username = input.value;
+       if (validate(username)) {
+         // TODO: Find a better way to wait until return value isn't undefined than calling getData() at end
+         getID(username);
+       }
     }
   }
 };
 
-function validate() {
-  var username = input.value;
+function validate(username) {
   error = "";
 
   // Username length validation
@@ -25,6 +29,33 @@ function validate() {
   return true;
 }
 
-function getSteamData() {
+function getID(username) {
+  var key = apikey.key;
+  var url= "http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=" + key + "&vanityurl=" + username;
+  var id = "";
+  // Super special thanks to this guy. It took me 244 tries to successfully access the Steam Web API
+  // without using PHP, and it's all because of him. Shoutout to the real ones
+  $.getJSON('http://www.whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?', function (data) {
+    var information = data.contents;
+    id = JSON.stringify(information).substring(42, 59);
+    getData(id);
+  });
+}
 
+function getData(id) {
+  var key = apikey.key;
+  var url = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + key + "&steamids=" + id;
+
+  $.getJSON('http://www.whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?', function (data) {
+    var information = data.contents;
+    alert(information);
+  });
+
+    /*echo "<img id='profilePhoto' src='";
+    echo $json['response']['players'][0]['avatarfull'];
+    echo "' alt='Steam profile picture' />";
+
+    echo "<p style='display: inline-block;'>";
+    echo $json['response']['players'][0]['personaname'];
+    echo "</p>";*/
 }
