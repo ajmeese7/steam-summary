@@ -5,7 +5,7 @@ I looked around for a while for a good Steam profile visualizer but I could neve
 find one that was up to my standards, so I made this.
 
 ### Setup
-Make a file called `apikeys.php` and paste in the following information:
+Make a file called `apikey.php` and paste in the following information:
 ```
 <?php
   $steam_api_key = "YOUR_API_KEY_HERE";
