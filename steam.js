@@ -34,7 +34,7 @@ function getID(username) {
   var url= "http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=" + key + "&vanityurl=" + username;
   var id = "";
   // Super special thanks to this guy. It took me 244 tries to successfully access the Steam Web API
-  // without using PHP, and it's all because of him. Shoutout to the real ones
+  // without using PHP, and I only got it because of this. Shoutout to the real ones
   $.getJSON('http://www.whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?', function (data) {
     var information = data.contents;
     id = JSON.stringify(information).substring(42, 59);
@@ -47,8 +47,8 @@ function getData(id) {
   var url = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + key + "&steamids=" + id;
 
   $.getJSON('http://www.whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?', function (data) {
-    var information = data.contents;
-    alert(information);
+    var json = JSON.parse(JSON.stringify(data.contents));
+    console.log("JSON: " + json);
   });
 
     /*echo "<img id='profilePhoto' src='";

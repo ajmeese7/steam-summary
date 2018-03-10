@@ -15,7 +15,7 @@
   <body>
     <h1 id="instructions">Enter Steam username</h1>
     <div style="height: 40px; text-align: center;">
-      <input id="input" type="text" placeholder="ex. 'ajmeese7'">
+      <input id="input" type="text" placeholder="ex. 'DeclaredDig9'">
     </div>
   </body>
 </html>
