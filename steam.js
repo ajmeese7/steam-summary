@@ -47,8 +47,8 @@ function getData(id) {
   var url = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + key + "&steamids=" + id;
 
   $.getJSON('http://www.whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?', function (data) {
-    var json = JSON.parse(JSON.stringify(data.contents));
-    console.log("JSON: " + json);
+    var json = JSON.parse(data.contents);
+    console.log(json.response.players[0].steamid);
   });
 
     /*echo "<img id='profilePhoto' src='";
