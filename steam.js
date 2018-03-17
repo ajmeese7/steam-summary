@@ -13,8 +13,6 @@ window.onload = function() {
   }
 };
 
-var data = "";
-
 function validate(username) {
   error = "";
 
@@ -40,6 +38,11 @@ function getID(username) {
 
 function getData(id) {
   $.getJSON('/proxy.php', {steamid: id}, function (response) {
-    console.log(response.response.players[0].steamid);
+    var info = response.response.players[0];
+    var body = document.getElementsByTagName("body")[0];
+    body.innerHTML = "<img id='photo' src='" + info.avatarfull + "' />";
+    body.style.backgroundColor = "#eee9df";
+
+    body.innerHTML += "<p id='name'>" + info.personaname + "</p>";
   });
 }
