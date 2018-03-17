@@ -13,6 +13,8 @@ window.onload = function() {
   }
 };
 
+var data = "";
+
 function validate(username) {
   error = "";
 
@@ -30,32 +32,14 @@ function validate(username) {
 }
 
 function getID(username) {
-  var key = apikey.key;
-  var url= "http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=" + key + "&vanityurl=" + username;
-  var id = "";
-  // Super special thanks to this guy. It took me 244 tries to successfully access the Steam Web API
-  // without using PHP, and I only got it because of this. Shoutout to the real ones
-  $.getJSON('http://www.whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?', function (data) {
-    var information = data.contents;
-    id = JSON.stringify(information).substring(42, 59);
-    getData(id);
+  $.getJSON('/proxy.php', {username: username}, function (response) {
+    // TODO: ADD FALLACY PROTECTION AGAINST INVALID USERNAMES!
+    getData(response.response.steamid);
   });
 }
 
 function getData(id) {
-  var key = apikey.key;
-  var url = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=" + key + "&steamids=" + id;
-
-  $.getJSON('http://www.whateverorigin.org/get?url=' + encodeURIComponent(url) + '&callback=?', function (data) {
-    var json = JSON.parse(data.contents);
-    console.log(json.response.players[0].steamid);
+  $.getJSON('/proxy.php', {steamid: id}, function (response) {
+    console.log(response.response.players[0].steamid);
   });
-
-    /*echo "<img id='profilePhoto' src='";
-    echo $json['response']['players'][0]['avatarfull'];
-    echo "' alt='Steam profile picture' />";
-
-    echo "<p style='display: inline-block;'>";
-    echo $json['response']['players'][0]['personaname'];
-    echo "</p>";*/
 }
