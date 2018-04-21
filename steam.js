@@ -6,46 +6,32 @@ window.onload = function() {
     // Runs on enter press (when key is released)
     if (e.keyCode == 13) {
        username = input.value;
-       if (validate(username)) {
-         // TODO: Find a better way to wait until return value isn't undefined than calling getData() at end
+       if (username.length > 0) {
          getID(username);
        }
     }
   }
 };
 
-function validate(username) {
-  error = "";
-
-  // Username length validation
-  if (username.length > 0) {
-    console.log("Part 1 validation: COMPLETE");
-  } else {
-    // TODO: implement school-assistant style 1-time error message
-    error = "Username must be longer than 0 characters.";
-    console.log("Error: " + error);
-    return false;
-  }
-
-  return true;
-}
-
 function getID(username) {
-  // Replace '/steam' with the directory on your server in which proxy.php is located
-  $.getJSON('/steam/proxy.php', {username: username}, function (response) {
-    // TODO: ADD FALLACY PROTECTION AGAINST INVALID USERNAMES!
-    getData(response.response.steamid);
+  $.getJSON('/proxy.php', {username: username}, function (response) {
+    if (response.response.success == 1) {
+      getData(response.response.steamid);
+    } else {
+      // TODO: Display this in a fancy fashion?
+      console.log("Invalid username: Steam servers responded without success.");
+    }
   });
 }
 
 function getData(id) {
-  $.getJSON('/steam/proxy.php', {steamid: id}, function (response) {
+  $.getJSON('/proxy.php', {steamid: id}, function (response) {
     // A detailed list of all accessible data can be found here:
     // https://developer.valvesoftware.com/wiki/Steam_Web_API#GetPlayerSummaries_.28v0002.29
     var info = response.response.players[0];
     var body = document.getElementsByTagName("body")[0];
-    
-    body.innerHTML = "<img id='photo' src='" + info.avatarfull + "' />";
+
+    body.innerHTML = "<img id='photo' src='" + info.avatarfull + "' alt=" + info.personaname + " />";
     body.style.backgroundColor = "#eee9df";
 
     body.innerHTML += "<p id='name'>" + info.personaname + " </p>";
