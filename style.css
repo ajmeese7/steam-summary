@@ -24,18 +24,17 @@ body {
   font-size: 16px;
 }
 
-#photo {
-  display: inline;
-  width: 175px;
+#container {
+  display: flex;
   margin-top: 30px;
   margin-left: 55px;
-  border-radius: 3px;
-  float: left;
 }
 
-#name {
-  display: inline;
-  margin-top: 40px;
+#photo {
+  width: 175px;
+  border-radius: 3px;
+}
+
+p {
   margin-left: 15px;
-  float: left;
 }

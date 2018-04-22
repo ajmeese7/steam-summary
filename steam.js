@@ -29,12 +29,16 @@ function getData(id) {
     // A detailed list of all accessible data can be found here:
     // https://developer.valvesoftware.com/wiki/Steam_Web_API#GetPlayerSummaries_.28v0002.29
     var info = response.response.players[0];
-    var body = document.getElementsByTagName("body")[0];
 
-    body.innerHTML = "<img id='photo' src='" + info.avatarfull + "' alt=" + info.personaname + " />";
+    var body = document.getElementsByTagName("body")[0];
+    body.innerHTML = "<div id='container'>";
+    var div = document.getElementById("container");
+
+    // Images are blurry because of Steam. I can't help it
+    div.innerHTML += "<img id='photo' src='" + info.avatarfull + "' alt=" + info.personaname + " />";
     body.style.backgroundColor = "#eee9df";
 
-    body.innerHTML += "<p id='name'>" + info.personaname + " </p>";
+    div.innerHTML += "<p id='name'>" + info.personaname + " </p>";
     var nameP = document.getElementById("name");
 
     // TODO: Test the value returned when a profile doesn't have a real name set!
@@ -42,5 +46,9 @@ function getData(id) {
     if (realName != "") {
       nameP.innerHTML += "<small>(" + info.realname + ")</small>";
     }
+
+    div.innerHTML += "<p>" + info.steamid + " </p>";
+
+    body.innerHTML += "</div>";
   });
 }
