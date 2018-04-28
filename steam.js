@@ -15,11 +15,21 @@ window.onload = function() {
 
 function getID(username) {
   $.getJSON('/proxy.php', {username: username}, function (response) {
-    if (response.response.success == 1) {
+    var success = response.response.success;
+    if (success == 1) {
       getData(response.response.steamid);
     } else {
-      // TODO: Display this in a fancy fashion?
-      console.log("Invalid username: Steam servers responded without success.");
+      var body = document.getElementsByTagName("body")[0];
+
+      // Checks if an error message is already displayed
+      if ($('#errorMessage').length > 0) {
+        $('#successCode').innerHTML = success;
+      } else {
+        body.innerHTML += "<p id='errorMessage'>The Steam WebAPI responded with a success indicator of <span id='successCode'>" + success + "</span>.</p>";
+        $('#errorMessage').css({"color": "red", "margin": "auto", "margin-top": "12px"});
+      }
+
+      window.onload(); // Goes back to waiting for text input
     }
   });
 }
