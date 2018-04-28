@@ -48,17 +48,20 @@ function getData(id) {
     div.innerHTML += "<img id='photo' src='" + info.avatarfull + "' alt=" + info.personaname + " />";
     body.style.backgroundColor = "#eee9df";
 
-    div.innerHTML += "<p id='name'>" + info.personaname + " </p>";
-    var nameP = document.getElementById("name");
+    div.innerHTML += "<div id='textDiv' style='flex-direction: column;'>";
+      var textDiv = document.getElementById("textDiv");
+      textDiv.innerHTML += "<p id='name'>" + info.personaname + " </p>";
+      var nameP = document.getElementById("name");
 
-    // TODO: Test the value returned when a profile doesn't have a real name set!
-    var realName = info.realname;
-    if (realName != "") {
-      nameP.innerHTML += "<small>(" + info.realname + ")</small>";
-    }
+      // TODO: Test the value returned when a profile doesn't have a real name set!
+      var realName = info.realname;
+      if (realName != "") {
+        nameP.innerHTML += "<small>(" + info.realname + ")</small>";
+      }
 
-    div.innerHTML += "<p>" + info.steamid + " </p>";
+      textDiv.innerHTML += "<p>" + info.steamid + " </p>";
+    div.innerHTML += "</div>";
 
-    body.innerHTML += "</div>";
+    body.innerHTML += "</div>"; // End of container
   });
 }
