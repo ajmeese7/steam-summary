@@ -7,6 +7,11 @@ body {
   background-color: #000000;
 }
 
+a {
+  color: #0082c8;
+  text-decoration: none;
+}
+
 #instructions {
   text-align: center;
   font-weight: 200;
@@ -35,7 +40,7 @@ body {
   border-radius: 3px;
 }
 
-p {
+#textDiv p, #textDiv a {
   margin-left: 15px;
   display: table;
 }

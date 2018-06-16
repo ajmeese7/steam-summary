@@ -49,18 +49,28 @@ function getData(id) {
     body.style.backgroundColor = "#eee9df";
 
     div.innerHTML += "<div id='textDiv' style='flex-direction: column;'>";
-      var textDiv = document.getElementById("textDiv");
-      textDiv.innerHTML += "<p id='name'>" + info.personaname + " </p>";
-      var nameP = document.getElementById("name");
+        var textDiv = document.getElementById("textDiv");
+        textDiv.innerHTML += "<p id='name'>" + info.personaname + " </p>";
+        var nameP = document.getElementById("name");
 
-      // TODO: Test the value returned when a profile doesn't have a real name set!
-      var realName = info.realname;
-      if (realName != "") {
-        nameP.innerHTML += "<small>(" + info.realname + ")</small>";
-      }
+        // TODO: Test the value returned when a profile doesn't have a real name set!
+        var realName = info.realname;
+        if (realName != "") {
+          nameP.innerHTML += "<small>(" + info.realname + ")</small>";
+        }
 
-      textDiv.innerHTML += "<p>" + info.steamid + " </p>";
+        textDiv.innerHTML += "<p>" + info.steamid + " </p>";
+
+        console.log(info.timecreated);
+        console.log(new Date(info.timecreated));
+
+        // TODO: Find a fancier format to display this as, possibly like:
+        // https://steamdb.info/calculator/76561198069087631/
+        textDiv.innerHTML += "<p>" + new Date(info.timecreated * 1000) + " </p>";
+
+        textDiv.innerHTML += "<a href='" + info.profileurl + "' >View profile on Steam</a>";
     div.innerHTML += "</div>";
+    // IDEA: Playtime graph like https://profile-summary-for-github.com/user/ajmeese7?
 
     body.innerHTML += "</div>"; // End of container
   });
