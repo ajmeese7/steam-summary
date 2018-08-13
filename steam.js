@@ -61,12 +61,10 @@ function getData(id) {
 
         textDiv.innerHTML += "<p>" + info.steamid + " </p>";
 
-        console.log(info.timecreated);
-        console.log(new Date(info.timecreated));
-
         // TODO: Find a fancier format to display this as, possibly like:
         // https://steamdb.info/calculator/76561198069087631/
-        textDiv.innerHTML += "<p>" + new Date(info.timecreated * 1000) + " </p>";
+        var date = new Date(info.timecreated * 1000);
+        textDiv.innerHTML += "<p title='" + date.toLocaleString() + "'>" + timeSince(date) + " </p>";
 
         textDiv.innerHTML += "<a href='" + info.profileurl + "' >View profile on Steam</a>";
     div.innerHTML += "</div>";
@@ -74,4 +72,31 @@ function getData(id) {
 
     body.innerHTML += "</div>"; // End of container
   });
+}
+
+// https://stackoverflow.com/questions/3177836/how-to-format-time-since-xxx-e-g-4-minutes-ago-similar-to-stack-exchange-site
+function timeSince(date) {
+  var seconds = Math.floor((new Date() - date) / 1000);
+  var interval = Math.floor(seconds / 31536000);
+
+  if (interval > 1) {
+    return interval + " years";
+  }
+  interval = Math.floor(seconds / 2592000);
+  if (interval > 1) {
+    return interval + " months";
+  }
+  interval = Math.floor(seconds / 86400);
+  if (interval > 1) {
+    return interval + " days";
+  }
+  interval = Math.floor(seconds / 3600);
+  if (interval > 1) {
+    return interval + " hours";
+  }
+  interval = Math.floor(seconds / 60);
+  if (interval > 1) {
+    return interval + " minutes";
+  }
+  return Math.floor(seconds) + " seconds";
 }
