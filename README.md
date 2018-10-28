@@ -2,7 +2,7 @@
 A Steam profile visualizer.
 
 I looked around for a while for a good Steam profile visualizer but I could never
-find one that was up to my standards, so I started working on.
+find one that was up to my standards, so I started working on one.
 
 ### Setup
 Edit the file `proxy.php` to include your API key here:
