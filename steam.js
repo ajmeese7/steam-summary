@@ -1,33 +1,23 @@
-window.onload = function() {
-  var input = document.getElementById("input");
-  var username = "";
+window.onload = () => {
   // TODO: Add an option to input other Steam forms (SteamID, Steam64, Steam32)
+  let input = document.getElementById("username");
   input.onkeyup = function(e) {
     // Runs on enter press (when key is released)
     if (e.keyCode == 13) {
-       username = input.value;
-       if (username.length > 0) {
-         getID(username);
-       }
+       let username = input.value;
+       if (username.length) getID(username);
     }
   }
 };
 
 function getID(username) {
-  $.getJSON('/proxy.php', {username: username}, function (response) {
-    var success = response.response.success;
+  $.getJSON('proxy.php', {username: username}, function (response) {
+    let success = response.response.success;
     if (success == 1) {
       getData(response.response.steamid);
     } else {
-      var body = document.getElementsByTagName("body")[0];
-
-      // Checks if an error message is already displayed
-      if ($('#errorMessage').length > 0) {
-        $('#successCode').innerHTML = success;
-      } else {
-        body.innerHTML += "<p id='errorMessage'>The Steam WebAPI responded with a success indicator of <span id='successCode'>" + success + "</span>.</p>";
-        $('#errorMessage').css({"color": "red", "margin": "auto", "margin-top": "12px"});
-      }
+      document.getElementById("errorMessage").style.visibility = "visible";
+      document.getElementById("successCode").innerText = success;
 
       window.onload(); // Goes back to waiting for text input
     }
@@ -35,68 +25,63 @@ function getID(username) {
 }
 
 function getData(id) {
-  $.getJSON('/proxy.php', {steamid: id}, function (response) {
-    // A detailed list of all accessible data can be found here:
-    // https://developer.valvesoftware.com/wiki/Steam_Web_API#GetPlayerSummaries_.28v0002.29
-    var info = response.response.players[0];
+  $.getJSON('proxy.php', {steamid: id}, function (response) {
+    let start = document.getElementById("start");
+    start.style.display = "none";
+    let profile = document.getElementById("profile");
+    profile.style.display = "inherit";
 
-    var body = document.getElementsByTagName("body")[0];
-    body.innerHTML = "<div id='container'>";
-    var div = document.getElementById("container");
-
-    // Images are blurry because of Steam. I can't help it
-    div.innerHTML += "<img id='photo' src='" + info.avatarfull + "' alt=" + info.personaname + " />";
+    let body = document.getElementsByTagName("body")[0];
     body.style.backgroundColor = "#eee9df";
 
-    div.innerHTML += "<div id='textDiv' style='flex-direction: column;'>";
-        var textDiv = document.getElementById("textDiv");
-        textDiv.innerHTML += "<p id='name'>" + info.personaname + " </p>";
-        var nameP = document.getElementById("name");
+    // A detailed list of all accessible data can be found here:
+    // https://developer.valvesoftware.com/wiki/Steam_Web_API#GetPlayerSummaries_.28v0002.29
+    let info = response.response.players[0];
 
-        // TODO: Test the value returned when a profile doesn't have a real name set!
-        var realName = info.realname;
-        if (realName != "") {
-          nameP.innerHTML += "<small>(" + info.realname + ")</small>";
-        }
+    // Images are blurry because of Steam. I can't help it
+    let profilePic = document.getElementById("profilePic");
+    profilePic.src = info.avatarfull;
+    profilePic.alt = info.personaname;
 
-        textDiv.innerHTML += "<p>" + info.steamid + " </p>";
+    let name = document.getElementById("name");
+    name.innerText = info.personaname;
 
-        // TODO: Find a fancier format to display this as, possibly like:
-        // https://steamdb.info/calculator/76561198069087631/
-        var date = new Date(info.timecreated * 1000);
-        textDiv.innerHTML += "<p title='" + date.toLocaleString() + "'>" + timeSince(date) + " </p>";
+    let realName = info.realname;
+    if (realName) {
+      name.innerHTML += "<small> (" + realName + ")</small>";
+    }
+    
+    document.getElementById("steamId").innerText = info.steamid;
 
-        textDiv.innerHTML += "<a href='" + info.profileurl + "' >View profile on Steam</a>";
-    div.innerHTML += "</div>";
-    // IDEA: Playtime graph like https://profile-summary-for-github.com/user/ajmeese7?
+    // TODO: Find a fancier format to display this as, possibly like:
+    // https://steamdb.info/calculator/76561198069087631/
+    let age = document.getElementById("age");
+    let date = new Date(info.timecreated * 1000);
+    age.title = date.toLocaleString();
+    age.innerText = timeSince(date);
 
-    body.innerHTML += "</div>"; // End of container
+    document.getElementById("profileLink").href = info.profileurl;
+    // IDEA: Playtime graph like https://profile-summary-for-github.com/user/ajmeese7
   });
 }
 
-// https://stackoverflow.com/questions/3177836/how-to-format-time-since-xxx-e-g-4-minutes-ago-similar-to-stack-exchange-site
+// https://stackoverflow.com/a/3177838/6456163
 function timeSince(date) {
-  var seconds = Math.floor((new Date() - date) / 1000);
-  var interval = Math.floor(seconds / 31536000);
+  let seconds = Math.floor((new Date() - date) / 1000);
+  let interval = Math.floor(seconds / 31536000);
+  if (interval > 1) return interval + " years";
 
-  if (interval > 1) {
-    return interval + " years";
-  }
   interval = Math.floor(seconds / 2592000);
-  if (interval > 1) {
-    return interval + " months";
-  }
+  if (interval > 1) return interval + " months";
+
   interval = Math.floor(seconds / 86400);
-  if (interval > 1) {
-    return interval + " days";
-  }
+  if (interval > 1) return interval + " days";
+
   interval = Math.floor(seconds / 3600);
-  if (interval > 1) {
-    return interval + " hours";
-  }
+  if (interval > 1) return interval + " hours";
+
   interval = Math.floor(seconds / 60);
-  if (interval > 1) {
-    return interval + " minutes";
-  }
+  if (interval > 1) return interval + " minutes";
+
   return Math.floor(seconds) + " seconds";
 }

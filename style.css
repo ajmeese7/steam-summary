@@ -5,6 +5,8 @@
 body {
   /* Try #099FFF, #00FFFF, #00adee? */
   background-color: #000000;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 a {
@@ -20,26 +22,38 @@ a {
   /* Change back if body color is changed */
   color: white;
 }
-
-#input {
+#username {
+  font-size: 16px;
+  width: 190px;
+  height: 40px;
+  display: table;
+  margin: auto;
   padding: 0 15px;
   border: 0;
-  width: 190px;
-  height: 100%;
-  font-size: 16px;
+}
+#errorMessage {
+  display: table;
+  margin: auto;
+  margin-top: 12px;
+  color: red;
+  visibility: hidden;
 }
 
-#container {
-  display: flex;
+#profile {
+  /*display: flex;*/
+  display: none;
   margin-top: 30px;
   margin-left: 55px;
+  flex-direction: column;
 }
-
-#photo {
+#profilePic {
   width: 175px;
   border-radius: 3px;
 }
 
+#textDiv {
+  display: inline-block;
+}
 #textDiv p, #textDiv a {
   margin-left: 15px;
   display: table;
