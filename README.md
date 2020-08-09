@@ -31,3 +31,4 @@ between the classic Steam interface and this [GitHub profile visualizer](https:/
 - Create player-specific URLs that can be visited by anyone, so profiles can be
 shared on social. Data will likely have to be stored and refreshed periodically
 - Find an API that shows total XP, so that can be the title attribute for the player level
+- Accept other forms of identification (SteamID, Steam64, Steam32) in the input field

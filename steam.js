@@ -1,5 +1,4 @@
 window.onload = () => {
-  // TODO: Add an option to input other Steam forms (SteamID, Steam64, Steam32)
   let input = document.getElementById("username");
   input.onkeyup = function(e) {
     // Runs on enter press (when key is released)
