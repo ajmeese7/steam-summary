@@ -24,3 +24,8 @@ main portion of the project) still has a lot of work that needs to be done to it
 
 If you're good with UI, your input here would be greatly appreciated. What I'm envisioning now is sort of a mix 
 between the classic Steam interface and this [GitHub profile visualizer](https://github.com/tipsy/profile-summary-for-github).
+
+### TODO
+- Add a playtime graph like [this](https://profile-summary-for-github.com/user/ajmeese7)
+- Show location by using [this project](https://github.com/Holek/steam-friends-countries)
+- Transition `#friends` over to grid, so adding in elements is smoother with the animation

@@ -1,12 +1,18 @@
+/* Steam color palette: https://colorswall.com/palette/193/ */
+
 * {
   font-family: 'Barlow Semi Condensed', sans-serif;
 }
 
 body {
-  /* Try #099FFF, #00FFFF, #00adee? */
   background-color: #000000;
   max-width: 1200px;
   margin: 0 auto;
+}
+@media (max-width: 1200px) {
+  body {
+    max-width: 90%;
+  }
 }
 
 a {
@@ -19,7 +25,6 @@ a {
   font-weight: 200;
   padding-top: 4%;
   padding-bottom: 5px;
-  /* Change back if body color is changed */
   color: white;
 }
 #username {
@@ -40,21 +45,70 @@ a {
 }
 
 #profile {
-  /*display: flex;*/
   display: none;
-  margin-top: 30px;
-  margin-left: 55px;
   flex-direction: column;
+}
+
+#overview {
+  width: 100%;
+  margin-top: 25px;
 }
 #profilePic {
   width: 175px;
   border-radius: 3px;
+  vertical-align: baseline;
 }
-
 #textDiv {
   display: inline-block;
 }
 #textDiv p, #textDiv a {
   margin-left: 15px;
   display: table;
+}
+#name {
+  font-weight: bold;
+}
+
+#friends {
+  flex-wrap: wrap;
+  background-color: #1b2838;
+  border-radius: 7.5px;
+}
+#friends > * + * {
+  /* https://stackoverflow.com/a/48752954/6456163 */
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+#friends h3 {
+  width: 100%;
+  color: white;
+  margin-top: 17.5px;
+  margin-left: 25px;
+}
+
+.faded-out {
+  opacity: 0;
+}
+.friendCard {
+  min-width: 225px !important;
+  height: 72px;
+  border-radius: 10px;
+  background-color: #2a475e;
+  cursor: pointer;
+  display: inline-flex;
+
+  transition: opacity 2000ms;
+  will-change: opacity;
+}
+.friendCard img {
+  height: 64px;
+  width: 64px;
+  margin-top: 4px;
+  margin-left: 5px;
+  border-radius: 5px;
+}
+.friendCard p {
+  color: #c7d5e0;
+  margin-left: 6px;
 }

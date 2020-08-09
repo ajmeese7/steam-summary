@@ -11,10 +11,18 @@ window.onload = () => {
 };
 
 function getID(username) {
-  $.getJSON('proxy.php', {username: username}, function (response) {
-    let success = response.response.success;
+  $.getJSON('proxy.php', { method: 'getID', username: username }, async (res) => {
+    let success = await res.response.success;
     if (success == 1) {
-      getData(response.response.steamid);
+      let steamid = res.response.steamid;
+      let userData = await getData(steamid);
+      userData = userData.response.players[0];
+      addDataToPage(userData);
+
+      // TODO: Separate these independent bits of code to do what the name says
+      // Get friend list only works if profile is public (3)
+      if (userData.communityvisibilitystate == 3)
+        getFriendList(steamid);
     } else {
       document.getElementById("errorMessage").style.visibility = "visible";
       document.getElementById("successCode").innerText = success;
@@ -24,49 +32,81 @@ function getID(username) {
   });
 }
 
-function getData(id) {
-  $.getJSON('proxy.php', {steamid: id}, function (response) {
-    let start = document.getElementById("start");
-    start.style.display = "none";
-    let profile = document.getElementById("profile");
-    profile.style.display = "inherit";
+async function getData(id) {
+  // A detailed list of all accessible data can be found here:
+  // https://developer.valvesoftware.com/wiki/Steam_Web_API#GetPlayerSummaries_.28v0002.29
+    // TODO: Try to return the res.response.players[0] `only`
+  return $.getJSON('proxy.php', { method: 'getData', steamid: id }, (res) => res);
+}
 
-    let body = document.getElementsByTagName("body")[0];
-    body.style.backgroundColor = "#eee9df";
+function addDataToPage(info) {
+  let start = document.getElementById("start"),
+      profile = document.getElementById("profile"),
+      body = document.getElementsByTagName("body")[0];
+  start.style.display = "none";
+  profile.style.display = "inherit";
+  body.style.backgroundColor = "#eee9df";
 
-    // A detailed list of all accessible data can be found here:
-    // https://developer.valvesoftware.com/wiki/Steam_Web_API#GetPlayerSummaries_.28v0002.29
-    let info = response.response.players[0];
+  // Images are blurry because of Steam. I can't help it
+  let profilePic = document.getElementById("profilePic");
+  profilePic.src = info.avatarfull;
+  profilePic.alt = info.personaname;
+  profilePic.title = info.personaname;
 
-    // Images are blurry because of Steam. I can't help it
-    let profilePic = document.getElementById("profilePic");
-    profilePic.src = info.avatarfull;
-    profilePic.alt = info.personaname;
+  let name = document.getElementById("name");
+  name.innerText = info.personaname;
+  document.title = `${info.personaname}'s Profile`;
 
-    let name = document.getElementById("name");
-    name.innerText = info.personaname;
-
-    let realName = info.realname;
-    if (realName) {
-      name.innerHTML += "<small> (" + realName + ")</small>";
-    }
-    
-    document.getElementById("steamId").innerText = info.steamid;
-
-    // TODO: Find a fancier format to display this as, possibly like:
-    // https://steamdb.info/calculator/76561198069087631/
+  let realName = info.realname;
+  if (realName)
+    name.innerHTML += "<small> (" + realName + ")</small>";
+  
+  if (info.timecreated) {
     let age = document.getElementById("age");
     let date = new Date(info.timecreated * 1000);
     age.title = date.toLocaleString();
     age.innerText = timeSince(date);
+  }
 
-    document.getElementById("profileLink").href = info.profileurl;
-    // IDEA: Playtime graph like https://profile-summary-for-github.com/user/ajmeese7
+  document.getElementById("steamId").innerText = info.steamid;
+  document.getElementById("profileLink").href = info.profileurl;
+}
+
+function getFriendList(id) {
+  $.getJSON('proxy.php', { method: 'getFriendList', steamid: id }, async (res) => {
+    let friends = document.getElementById("friends");
+    let friendslist = res.friendslist.friends;
+
+    // TODO: Paginate this correctly with a 'See more' button
+    for (let i = 0; i < friendslist.length; i++) {
+      if (i > 10) break;
+      let friendInfo = await getData(friendslist[i].steamid);
+      friendInfo = friendInfo.response.players[0];
+
+      // TODO: Find a way to retrieve multiple cycles at once
+      let friendCard = document.createElement("div");
+
+      // IDEA: Add 'View Profile' link instead...
+      // https://stackoverflow.com/a/13637560/6456163
+      friendCard.onclick = () => { window.location = friendInfo.profileurl; };
+      friendCard.classList.add("friendCard", "faded-out");
+      friendCard.innerHTML += `<img src='${friendInfo.avatarmedium}' />`;
+      friendCard.innerHTML += `<p>${friendInfo.personaname}</p>`;
+      friends.appendChild(friendCard);
+
+      // https://medium.com/@felixblaschke/dynamisch-erstellte-html-elemente-animieren-6d165a37f685
+      requestAnimationFrame(() => {
+        friendCard.classList.remove("faded-out");
+      });
+    }
   });
 }
 
 // https://stackoverflow.com/a/3177838/6456163
 function timeSince(date) {
+  // TODO: Find a fancier format to display this as, possibly like:
+  // https://steamdb.info/calculator/76561198069087631/
+
   let seconds = Math.floor((new Date() - date) / 1000);
   let interval = Math.floor(seconds / 31536000);
   if (interval > 1) return interval + " years";

@@ -5,10 +5,13 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="favicon.png">
 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv=”Pragma” content=”no-cache”>
     <meta http-equiv=”Expires” content=”-1″>
     <meta http-equiv=”CACHE-CONTROL” content=”NO-CACHE”>
 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" 
+      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="style.css" />
     <script type="text/javascript" src="jquery.min.js"></script>
     <script type="text/javascript" src="steam.js"></script>
@@ -21,14 +24,20 @@
       <p id="errorMessage">The Steam WebAPI responded with a success indicator of <span id="successCode"></span>.</p>
     </div>
 
-    <div id="profile">
-      <img id="profilePic" />
-      <div id="textDiv">
-        <p id="name"></p>
-        <p id="steamId"></p>
-        <p id="age"></p>
-        <a id="profileLink">View profile on Steam</a>
+    <section id="profile">
+      <div id="overview">
+        <img id="profilePic" />
+        <div id="textDiv">
+          <p id="name" title="User's name"></p>
+          <p id="steamId" title="64-bit Steam ID"></p>
+          <p id="age"></p>
+          <a id="profileLink">View profile on Steam</a>
+        </div>
       </div>
-    </div>
+      
+      <div id="friends" class="d-flex justify-content-around">
+        <h3>Friend List</h3>
+      </div>
+    </section>
   </body>
 </html>
