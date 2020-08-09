@@ -54,13 +54,13 @@ function getFriendsList(id) {
   return (async () => await list() )();
 }
 
-function getLevel(id) {
-  const level = async () => {
-    const result = await $.getJSON('proxy.php', { method: 'getLevel', steamid: id }, (res) => res);
-    return result.response.player_level;
+function getBadges(id) {
+  const badges = async () => {
+    const result = await $.getJSON('proxy.php', { method: 'getBadges', steamid: id }, (res) => res);
+    return result.response;
   }
 
-  return (async () => await level() )();
+  return (async () => await badges() )();
 }
 
 function getOwnedGames(id) {
@@ -81,8 +81,25 @@ async function displayData(steamid) {
 
   // Methods that only work if profile is public (3)
   if (userData.communityvisibilitystate == 3) {
-    let level = await getLevel(steamid);
-    document.getElementById("level").innerText = `Level ${level}`;
+    // TODO: Do something with actual badges
+    let badges = await getBadges(steamid);
+    document.getElementById("level").title = `Total XP: ${badges.player_xp}`;
+
+    // NOTE: Can also make a horizontal display like the one here if I want;
+    // https://steamdb.info/calculator/76561198069087631/
+    let progress = badges.player_xp - badges.player_xp_needed_current_level;
+    let nextLevel = progress + badges.player_xp_needed_to_level_up;
+    let levelCircle = Circles.create({
+      // https://github.com/lugolabs/circles
+      id:                  'level-circle',
+      radius:              19.5,
+      value:               progress,
+      maxValue:            nextLevel,
+      width:               6.25,
+      text:                badges.player_level,
+      colors:              ['#D3B6C6', '#4B253A'],
+      duration:            500
+    });
 
     // Global scope so I don't have to make this request again if
     // I want to use the individual games later

@@ -34,5 +34,5 @@ If you're looking for a place to start adding to this project, look for somethin
 - Show location by using [this project](https://github.com/Holek/steam-friends-countries)
 - Create player-specific URLs that can be visited by anyone, so profiles can be
 shared on social. Data will likely have to be stored and refreshed periodically
-- Find an API that shows total XP, so that can be the title attribute for the player level
 - Accept other forms of identification (SteamID, Steam64, Steam32) in the input field
+- Add support on the circle chart for the different [level colors](https://cdn.discordapp.com/attachments/185867315647086592/276664412650340353/unknown.png)

@@ -61,13 +61,24 @@ a {
 #textDiv {
   display: inline-block;
 }
-#textDiv p, #textDiv a {
+#name {
+  font-weight: bold;
+}
+#textDiv p, #textDiv a, #level {
   margin-left: 15px;
   display: table;
   line-height: 1;
 }
-#name {
-  font-weight: bold;
+#level {
+  /* TODO: Style this section better */
+  margin-top: -8px;
+  margin-bottom: 7px;
+}
+#level-circle {
+  display: inline;
+}
+.circles-text {
+  font-size: 16px !important;
 }
 
 #friends {
