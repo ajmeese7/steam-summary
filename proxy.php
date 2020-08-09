@@ -15,6 +15,9 @@
   } else if ($method == 'getFriendList') {
     $url = 'http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=%s&steamid=%s&relationship=friend';
     $request_uri = sprintf($url, $token, $_GET['steamid']);
+  }  else if ($method == 'getOwnedGames') {
+    $url = 'https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=%s&steamid=%s';
+    $request_uri = sprintf($url, $token, $_GET['steamid']);
   } else {
     header('HTTP/1.1 400 Bad Request');
     exit("No valid method was provided.");
