@@ -51,7 +51,7 @@ a {
 
 #overview {
   width: 100%;
-  margin-top: 25px;
+  margin: 25px 0px;
 }
 #profilePic {
   width: 175px;
@@ -64,29 +64,36 @@ a {
 #textDiv p, #textDiv a {
   margin-left: 15px;
   display: table;
+  line-height: 1;
 }
 #name {
   font-weight: bold;
 }
 
 #friends {
-  flex-wrap: wrap;
   background-color: #1b2838;
   border-radius: 7.5px;
-}
-#friends > * + * {
-  /* https://stackoverflow.com/a/48752954/6456163 */
-  margin-left: 5px;
-  margin-right: 5px;
-  margin-bottom: 5px;
 }
 #friends h3 {
   width: 100%;
   color: white;
-  margin-top: 17.5px;
+  padding-top: 17.5px;
   margin-left: 25px;
 }
+#friendList {
+  /* https://css-tricks.com/auto-sizing-columns-css-grid-auto-fill-vs-auto-fit/ */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+}
+#friendList > * {
+  /* https://stackoverflow.com/a/48752954/6456163 */
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
 
+.container {
+  max-width: 100% !important;
+}
 .faded-out {
   opacity: 0;
 }
@@ -97,9 +104,13 @@ a {
   background-color: #2a475e;
   cursor: pointer;
   display: inline-flex;
+  padding: 0px !important;
 
   transition: opacity 2000ms;
   will-change: opacity;
+}
+.friendCard:hover {
+  text-decoration: none;
 }
 .friendCard img {
   height: 64px;
@@ -108,7 +119,11 @@ a {
   margin-left: 5px;
   border-radius: 5px;
 }
-.friendCard p {
+.friendName {
   color: #c7d5e0;
-  margin-left: 6px;
+  margin-top: 6px;
+  margin-left: 7.5px;
+}
+.friendCard:last-of-type {
+  margin-bottom: 15px !important;
 }

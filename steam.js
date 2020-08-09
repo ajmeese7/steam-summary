@@ -74,7 +74,7 @@ function addDataToPage(info) {
 
 function getFriendList(id) {
   $.getJSON('proxy.php', { method: 'getFriendList', steamid: id }, async (res) => {
-    let friends = document.getElementById("friends");
+    let friends = document.getElementById("friendList");
     let friendslist = res.friendslist.friends;
 
     // TODO: Paginate this correctly with a 'See more' button
@@ -83,15 +83,12 @@ function getFriendList(id) {
       let friendInfo = await getData(friendslist[i].steamid);
       friendInfo = friendInfo.response.players[0];
 
-      // TODO: Find a way to retrieve multiple cycles at once
-      let friendCard = document.createElement("div");
-
-      // IDEA: Add 'View Profile' link instead...
-      // https://stackoverflow.com/a/13637560/6456163
-      friendCard.onclick = () => { window.location = friendInfo.profileurl; };
-      friendCard.classList.add("friendCard", "faded-out");
+      let friendCard = document.createElement("a");
+      friendCard.href = friendInfo.profileurl;
+      friendCard.setAttribute('target', '_blank');
+      friendCard.classList.add("friendCard", "faded-out", "col-xs-12", "col-sm-6", "col-md-4", "col-lg-3");
       friendCard.innerHTML += `<img src='${friendInfo.avatarmedium}' />`;
-      friendCard.innerHTML += `<p>${friendInfo.personaname}</p>`;
+      friendCard.innerHTML += `<p class='friendName'>${friendInfo.personaname}</p>`;
       friends.appendChild(friendCard);
 
       // https://medium.com/@felixblaschke/dynamisch-erstellte-html-elemente-animieren-6d165a37f685

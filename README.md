@@ -28,4 +28,3 @@ between the classic Steam interface and this [GitHub profile visualizer](https:/
 ### TODO
 - Add a playtime graph like [this](https://profile-summary-for-github.com/user/ajmeese7)
 - Show location by using [this project](https://github.com/Holek/steam-friends-countries)
-- Transition `#friends` over to grid, so adding in elements is smoother with the animation
