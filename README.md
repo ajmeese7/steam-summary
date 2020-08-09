@@ -19,11 +19,15 @@ php -S localhost:8000
 ```
 
 ### Contributing
-Right now I **think** I have a pretty good setup for retrieving the Steam user's data, but the frontend (the 
-main portion of the project) still has a lot of work that needs to be done to it.
+Right now I **think** I have a pretty good setup for retrieving the Steam user's data, but the frontend 
+still needs a lot of work.
 
 If you're good with UI, your input here would be greatly appreciated. What I'm envisioning now is sort of a mix 
 between the classic Steam interface and this [GitHub profile visualizer](https://github.com/tipsy/profile-summary-for-github).
+
+Steam has these [two](https://developer.valvesoftware.com/wiki/Steam_Web_API#GetPlayerSummaries_.28v0002.29) 
+[APIs](https://partner.steamgames.com/doc/webapi/IPlayerService) that allow me to get the info I need for this project.
+If you're looking for a place to start adding to this project, look for something I haven't added and get on it!
 
 ### TODO
 - Add a playtime graph like [this](https://profile-summary-for-github.com/user/ajmeese7)

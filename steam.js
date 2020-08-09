@@ -1,48 +1,40 @@
 window.onload = () => {
   let input = document.getElementById("username");
-  input.onkeyup = function(e) {
+  input.onkeyup = async (e) => {
     // Runs on enter press (when key is released)
     if (e.keyCode == 13) {
-       let username = input.value;
-       if (username.length) getID(username);
+      let username = input.value;
+      if (username.length) {
+        let steamid = await getID(username);
+        displayData(steamid);
+      }
     }
   }
 };
 
+/*************************************
+ *              GETTERS              *
+ *************************************/
 function getID(username) {
-  $.getJSON('proxy.php', { method: 'getID', username: username }, async (res) => {
-    let success = await res.response.success;
+  const id = async () => {
+    const result = await $.getJSON('proxy.php', { method: 'getID', username: username }, (res) => res);
+    return result;
+  }
+
+  return (async () => {
+    let res = await id();
+    let success = res.response.success;
     if (success == 1) {
-      let steamid = res.response.steamid;
-      let userData = await getData(steamid);
-      addDataToPage(userData);
-
-      // TODO: Separate these independent bits of code to do what the name says
-      // Get friend list only works if profile is public (3)
-      if (userData.communityvisibilitystate == 3) {
-        let level = await getLevel(steamid);
-        document.getElementById("level").innerText = `Level ${level}`;
-
-        // Global scope so I don't have to make this request again if
-        // I want to use the individual games later
-        window.games = await getOwnedGames(steamid);
-        document.getElementById("games").innerText = `Owned games: ${window.games.game_count}`;
-
-        let friendslist = await getFriendsList(steamid);
-        displayFriendsList(friendslist);
-      }
+      return res.response.steamid;
     } else {
       document.getElementById("errorMessage").style.visibility = "visible";
       document.getElementById("successCode").innerText = success;
 
-      window.onload(); // Goes back to waiting for text input
+      return window.onload(); // Goes back to waiting for text input
     }
-  });
+  })();
 }
 
-// A detailed list of all accessible data can be found here:
-  // https://developer.valvesoftware.com/wiki/Steam_Web_API#GetPlayerSummaries_.28v0002.29
-  // https://partner.steamgames.com/doc/webapi/IPlayerService
 function getData(id) {
   // https://flaviocopes.com/how-to-return-result-asynchronous-function/
   const data = async () => {
@@ -51,6 +43,55 @@ function getData(id) {
   }
 
   return (async () => await data() )();
+}
+
+function getFriendsList(id) {
+  const list = async () => {
+    const result = await $.getJSON('proxy.php', { method: 'getFriendList', steamid: id }, (res) => res);
+    return result.friendslist.friends;
+  }
+
+  return (async () => await list() )();
+}
+
+function getLevel(id) {
+  const level = async () => {
+    const result = await $.getJSON('proxy.php', { method: 'getLevel', steamid: id }, (res) => res);
+    return result.response.player_level;
+  }
+
+  return (async () => await level() )();
+}
+
+function getOwnedGames(id) {
+  const games = async () => {
+    const result = await $.getJSON('proxy.php', { method: 'getOwnedGames', steamid: id }, (res) => res);
+    return result.response;
+  }
+
+  return (async () => await games() )();
+}
+
+/*************************************
+ *            OTHER STUFF            *
+ *************************************/
+async function displayData(steamid) {
+  let userData = await getData(steamid);
+  addDataToPage(userData);
+
+  // Methods that only work if profile is public (3)
+  if (userData.communityvisibilitystate == 3) {
+    let level = await getLevel(steamid);
+    document.getElementById("level").innerText = `Level ${level}`;
+
+    // Global scope so I don't have to make this request again if
+    // I want to use the individual games later
+    window.games = await getOwnedGames(steamid);
+    document.getElementById("games").innerText = `Owned games: ${window.games.game_count}`;
+
+    let friendslist = await getFriendsList(steamid);
+    displayFriendsList(friendslist);
+  }
 }
 
 function addDataToPage(info) {
@@ -86,15 +127,6 @@ function addDataToPage(info) {
   document.getElementById("profileLink").href = info.profileurl;
 }
 
-function getFriendsList(id) {
-  const list = async () => {
-    const result = await $.getJSON('proxy.php', { method: 'getFriendList', steamid: id }, (res) => res);
-    return result.friendslist.friends;
-  }
-
-  return (async () => await list() )();
-}
-
 async function displayFriendsList(friendslist) {
   let friends = document.getElementById("friendList");
 
@@ -116,25 +148,6 @@ async function displayFriendsList(friendslist) {
       friendCard.classList.remove("faded-out");
     });
   }
-}
-
-// TODO: Test a private account to see if I can get this info
-function getLevel(id) {
-  const level = async () => {
-    const result = await $.getJSON('proxy.php', { method: 'getLevel', steamid: id }, (res) => res);
-    return result.response.player_level;
-  }
-
-  return (async () => await level() )();
-}
-
-function getOwnedGames(id) {
-  const games = async () => {
-    const result = await $.getJSON('proxy.php', { method: 'getOwnedGames', steamid: id }, (res) => res);
-    return result.response;
-  }
-
-  return (async () => await games() )();
 }
 
 // https://stackoverflow.com/a/3177838/6456163
