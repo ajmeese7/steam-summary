@@ -9,6 +9,9 @@
   } else if ($method == 'getData') {
     $url = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s';
     $request_uri = sprintf($url, $token, $_GET['steamid']);
+  } else if ($method == 'getLevel') {
+    $url = 'https://api.steampowered.com/IPlayerService/GetSteamLevel/v1/?key=%s&steamid=%s';
+    $request_uri = sprintf($url, $token, $_GET['steamid']);
   } else if ($method == 'getFriendList') {
     $url = 'http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=%s&steamid=%s&relationship=friend';
     $request_uri = sprintf($url, $token, $_GET['steamid']);

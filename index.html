@@ -17,12 +17,12 @@
     <script type="text/javascript" src="steam.js"></script>
   </head>
   <body>
-    <div id="start">
+    <section id="start">
       <h1 id="instructions">Enter Steam username</h1>
       <input id="username" type="text" placeholder="ex. 'DeclaredDig9'">
 
       <p id="errorMessage">The Steam WebAPI responded with a success indicator of <span id="successCode"></span>.</p>
-    </div>
+    </section>
 
     <section id="profile">
       <div id="overview">
@@ -31,6 +31,7 @@
           <p id="name" title="User's name"></p>
           <p id="steamId" title="64-bit Steam ID"></p>
           <p id="age"></p>
+          <p id="level"></p>
           <a id="profileLink">View profile on Steam</a>
         </div>
       </div>

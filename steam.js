@@ -23,6 +23,7 @@ function getID(username) {
       // Get friend list only works if profile is public (3)
       if (userData.communityvisibilitystate == 3)
         getFriendList(steamid);
+        displayLevel(steamid);
     } else {
       document.getElementById("errorMessage").style.visibility = "visible";
       document.getElementById("successCode").innerText = success;
@@ -35,6 +36,7 @@ function getID(username) {
 async function getData(id) {
   // A detailed list of all accessible data can be found here:
   // https://developer.valvesoftware.com/wiki/Steam_Web_API#GetPlayerSummaries_.28v0002.29
+  // https://partner.steamgames.com/doc/webapi/IPlayerService
     // TODO: Try to return the res.response.players[0] `only`
   return $.getJSON('proxy.php', { method: 'getData', steamid: id }, (res) => res);
 }
@@ -96,6 +98,21 @@ function getFriendList(id) {
         friendCard.classList.remove("faded-out");
       });
     }
+  });
+}
+
+function displayLevel(id) {
+  // TODO: Test a private account to see if I can get this info
+  $.getJSON('proxy.php', { method: 'getLevel', steamid: id })
+    .done((json) => {
+      let level = document.getElementById("level");
+      level.innerText = `Level ${json.response.player_level}`;
+      
+      // TODO: Eventually find a workaround to return value from this async func
+    })
+    .fail((jqxhr, textStatus, error) => {
+      let err = `${textStatus}, ${error}`;
+      console.error("getLevel request failed:", err);
   });
 }
 

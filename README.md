@@ -28,3 +28,6 @@ between the classic Steam interface and this [GitHub profile visualizer](https:/
 ### TODO
 - Add a playtime graph like [this](https://profile-summary-for-github.com/user/ajmeese7)
 - Show location by using [this project](https://github.com/Holek/steam-friends-countries)
+- Create player-specific URLs that can be visited by anyone, so profiles can be
+shared on social. Data will likely have to be stored and refreshed periodically
+- Find an API that shows total XP, so that can be the title attribute for the player level
