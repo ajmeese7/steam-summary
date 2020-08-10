@@ -35,4 +35,4 @@ If you're looking for a place to start adding to this project, look for somethin
 - Create player-specific URLs that can be visited by anyone, so profiles can be
 shared on social. Data will likely have to be stored and refreshed periodically
 - Accept other forms of identification (SteamID, Steam64, Steam32) in the input field
-- Add support on the circle chart for the different [level colors](https://cdn.discordapp.com/attachments/185867315647086592/276664412650340353/unknown.png)
+- Steal more features from some of [these sites](https://steamcommunity.com/sharedfiles/filedetails/?id=451698754)

@@ -73,7 +73,7 @@ function getOwnedGames(id) {
 }
 
 /*************************************
- *            OTHER STUFF            *
+ *          DISPLAY FUNCTIONS        *
  *************************************/
 async function displayData(steamid) {
   let userData = await getData(steamid);
@@ -89,15 +89,16 @@ async function displayData(steamid) {
     // https://steamdb.info/calculator/76561198069087631/
     let progress = badges.player_xp - badges.player_xp_needed_current_level;
     let nextLevel = progress + badges.player_xp_needed_to_level_up;
-    let levelCircle = Circles.create({
+    let badgeColor = getBadgeColor(badges.player_level);
+    Circles.create({
       // https://github.com/lugolabs/circles
       id:                  'level-circle',
-      radius:              19.5,
+      radius:              17.5,
       value:               progress,
       maxValue:            nextLevel,
-      width:               6.25,
+      width:               2,
       text:                badges.player_level,
-      colors:              ['#D3B6C6', '#4B253A'],
+      colors:              [badgeColor, LightenDarkenColor(badgeColor, -65)],
       duration:            500
     });
 
@@ -117,7 +118,9 @@ function addDataToPage(info) {
       body = document.getElementsByTagName("body")[0];
   start.style.display = "none";
   profile.style.display = "inherit";
-  body.style.backgroundColor = "#eee9df";
+  body.style.backgroundColor = "#2a475e";
+  body.classList.add("gradient-background");
+  body.style.minHeight = `${window.innerHeight}px`;
 
   // Images are blurry because of Steam. I can't help it
   let profilePic = document.getElementById("profilePic");
@@ -127,6 +130,7 @@ function addDataToPage(info) {
 
   let name = document.getElementById("name");
   name.innerText = info.personaname;
+  name.href = info.profileurl;
   document.title = `${info.personaname}'s Profile`;
 
   let realName = info.realname;
@@ -137,11 +141,10 @@ function addDataToPage(info) {
     let age = document.getElementById("age");
     let date = new Date(info.timecreated * 1000);
     age.title = date.toLocaleString();
-    age.innerText = `Joined Steam ${timeSince(date)} ago`;
+    age.innerHTML = `Joined Steam <span style="color: #66c0f4;">${timeSince(date)}</span> ago`;
   }
 
   document.getElementById("steamId").innerText = info.steamid;
-  document.getElementById("profileLink").href = info.profileurl;
 }
 
 async function displayFriendsList(friendslist) {
@@ -167,14 +170,64 @@ async function displayFriendsList(friendslist) {
   }
 }
 
+/*************************************
+ *          HELPER FUNCTIONS         *
+ *************************************/
+function getBadgeColor(level) {
+  // https://cdn.discordapp.com/attachments/185867315647086592/276664412650340353/unknown.png
+  level = level % 100;
+  if (level < 10) {
+    return "#b9b9b9";
+  } else if (level < 20) {
+    return "#c02942";
+  } else if (level < 30) {
+    return "#d95b43";
+  } else if (level < 40) {
+    return "#fecc23";
+  } else if (level < 50) {
+    return "#467a3c";
+  } else if (level < 60) {
+    return "#4e8ddb";
+  } else if (level < 70) {
+    return "#7652c9";
+  } else if (level < 80) {
+    return "#c252c9";
+  } else if (level < 90) {
+    return "#542437";
+  } else {
+    return "#997c52";
+  }
+}
+
+function LightenDarkenColor(col, amt) {
+  // https://css-tricks.com/snippets/javascript/lighten-darken-color/
+  let usePound = false;
+  if (col[0] == "#") {
+      col = col.slice(1);
+      usePound = true;
+  }
+  let num = parseInt(col,16);
+  let r = (num >> 16) + amt;
+  if (r > 255) r = 255;
+  else if  (r < 0) r = 0;
+  let b = ((num >> 8) & 0x00FF) + amt;
+  if (b > 255) b = 255;
+  else if  (b < 0) b = 0;
+  let g = (num & 0x0000FF) + amt;
+  if (g > 255) g = 255;
+  else if (g < 0) g = 0;
+  return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+}
+
 // https://stackoverflow.com/a/3177838/6456163
 function timeSince(date) {
-  // TODO: Find a fancier format to display this as, possibly like:
-  // https://steamdb.info/calculator/76561198069087631/
-
   let seconds = Math.floor((new Date() - date) / 1000);
   let interval = Math.floor(seconds / 31536000);
-  if (interval > 1) return interval + " years";
+  if (interval > 1) {
+    let rounded = parseInt(interval).toFixed(1);
+    let trailingZero = rounded.slice(-1) == '0';
+    return (trailingZero ? interval : rounded) + " years";
+  }
 
   interval = Math.floor(seconds / 2592000);
   if (interval > 1) return interval + " months";
