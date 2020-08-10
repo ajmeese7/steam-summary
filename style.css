@@ -24,7 +24,6 @@ body {
 }
 
 a {
-  color: #0082c8 !important;
   text-decoration: none;
 }
 
@@ -73,6 +72,9 @@ a {
 #name {
   font-weight: bold;
   margin-bottom: 1rem;
+}
+#name:hover {
+  color: #0082c8;
 }
 #textDiv p, #textDiv a, #level {
   margin-left: 15px;
