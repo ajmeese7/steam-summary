@@ -107,8 +107,15 @@ async function displayData(steamid) {
     window.games = await getOwnedGames(steamid);
     document.getElementById("games").innerText = `Owned games: ${window.games.game_count}`;
 
-    let friendslist = await getFriendsList(steamid);
-    displayFriendsList(friendslist);
+    window.friendslist = await getFriendsList(steamid);
+    window.friendCounter = 0;
+    showMoreFriends();
+
+    let showMore = document.createElement("a");
+    showMore.innerText = "Show more...";
+    showMore.onclick = () => showMoreFriends();
+    showMore.id = "showMore";
+    document.getElementById("friends").appendChild(showMore);
   }
 }
 
@@ -147,26 +154,25 @@ function addDataToPage(info) {
   document.getElementById("steamId").innerText = info.steamid;
 }
 
-async function displayFriendsList(friendslist) {
+async function showMoreFriends() {
   let friends = document.getElementById("friendList");
+  let previousBound = window.friendCounter;
 
-  // TODO: Paginate this correctly with a 'See more' button
-  for (let i = 0; i < friendslist.length; i++) {
-    if (i > 10) break;
-    let friendInfo = await getData(friendslist[i].steamid);
+  for (let i = window.friendCounter; i < window.friendslist.length; i++) {
+    if (i > previousBound + 10) break;
+    let friendInfo = await getData(window.friendslist[i].steamid);
     let friendCard = document.createElement("a");
     
     friendCard.href = friendInfo.profileurl;
     friendCard.setAttribute('target', '_blank');
     friendCard.classList.add("friendCard", "faded-out", "col-xs-12", "col-sm-6", "col-md-4", "col-lg-3");
     friendCard.innerHTML += `<img src='${friendInfo.avatarmedium}' />`;
-    friendCard.innerHTML += `<p class='friendName'>${friendInfo.personaname}</p>`;
+    friendCard.innerHTML += `<p class='friendName'>${friendInfo.personaname}</p>`; // TODO: Content w/ innerText
     friends.appendChild(friendCard);
 
     // https://medium.com/@felixblaschke/dynamisch-erstellte-html-elemente-animieren-6d165a37f685
-    requestAnimationFrame(() => {
-      friendCard.classList.remove("faded-out");
-    });
+    requestAnimationFrame(() => friendCard.classList.remove("faded-out") );
+    window.friendCounter++;
   }
 }
 
