@@ -1,5 +1,6 @@
 # steam-summary
-A Steam profile visualizer.
+
+![Steam Summary preview](https://user-images.githubusercontent.com/17814535/91070783-e08bd080-e5fc-11ea-9abc-a64f53a12b65.png)
 
 I looked around for a while for a good Steam profile visualizer and left disappointed, 
 so I started working my own.
