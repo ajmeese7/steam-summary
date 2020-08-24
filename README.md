@@ -1,4 +1,14 @@
-# steam-summary
+<p align="center">
+  <h1 align="center">♨️Steam Summary♨️</h1>
+</p>
+
+<p align="center">
+   <img src="https://img.shields.io/badge/language-JavaScript-yellow"/>
+   <img src="https://img.shields.io/github/license/ajmeese7/steam-summary"/>
+   <img src="https://img.shields.io/github/stars/ajmeese7/steam-summary"/>
+   <img src="https://img.shields.io/github/forks/ajmeese7/steam-summary"/>
+   <img src="https://img.shields.io/static/v1?label=%F0%9F%8C%9F&message=If%20Useful&style=style=flat&color=BC4E99" alt="Star Badge"/>
+</p>
 
 ![Steam Summary preview](https://user-images.githubusercontent.com/17814535/91070783-e08bd080-e5fc-11ea-9abc-a64f53a12b65.png)
 
@@ -49,3 +59,4 @@ shared on social. Data will likely have to be stored and refreshed periodically
 particularly [this one](https://steamdb.info/calculator/76561198069087631/)
 - Make the layout mobile-friendly, and have a graceful transition for the map when 
 the window width drops below 1000px
+- Find a way to speed up the loading of the massive JSON location file
