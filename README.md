@@ -1,13 +1,18 @@
 # steam-summary
 A Steam profile visualizer.
 
-I looked around for a while for a good Steam profile visualizer but I could never
-find one that was up to my standards, so I started working on one.
+I looked around for a while for a good Steam profile visualizer and left disappointed, 
+so I started working my own.
 
 ### Setup
-Edit the file `proxy.php` to include your API key here:
+If you don't have your own Steam API key, go [here](https://steamcommunity.com/dev/apikey) to 
+acquire one.
+
+Create a file named `env.php` to include your Steam API key, and fill it like so:
 ```php
-$token = 'YOUR_KEY_HERE';
+<?php
+  $token = 'YOUR_STEAM_API_KEY_HERE';
+?>
 ```
 
 Of course, replace the API key with your own, which you can get [here](http://steamcommunity.com/dev/apikey).
@@ -17,6 +22,10 @@ then visiting the URL in your browser:
 ```
 php -S localhost:8000
 ```
+
+You will need your own Google Maps API key for testing, as mine is restricted to the hosted
+domain to prevent abuse. You can find the instructions on how to do so 
+[here](https://developers.google.com/maps/documentation/javascript/get-api-key).
 
 ### Contributing
 Right now I **think** I have a pretty good setup for retrieving the Steam user's data, but the frontend 
@@ -35,4 +44,7 @@ If you're looking for a place to start adding to this project, look for somethin
 - Create player-specific URLs that can be visited by anyone, so profiles can be
 shared on social. Data will likely have to be stored and refreshed periodically
 - Accept other forms of identification (SteamID, Steam64, Steam32) in the input field
-- Steal more features from some of [these sites](https://steamcommunity.com/sharedfiles/filedetails/?id=451698754)
+- Steal more features from some of [these sites](https://steamcommunity.com/sharedfiles/filedetails/?id=451698754),
+particularly [this one](https://steamdb.info/calculator/76561198069087631/)
+- Make the layout mobile-friendly, and have a graceful transition for the map when 
+the window width drops below 1000px

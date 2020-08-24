@@ -92,15 +92,22 @@ async function displayData(steamid) {
     let badgeColor = getBadgeColor(badges.player_level);
     Circles.create({
       // https://github.com/lugolabs/circles
-      id:                  'level-circle',
-      radius:              17.5,
-      value:               progress,
-      maxValue:            nextLevel,
-      width:               2,
-      text:                badges.player_level,
-      colors:              [badgeColor, LightenDarkenColor(badgeColor, -65)],
-      duration:            500
+      id:       'level-circle',
+      radius:   17.5,
+      value:    progress,
+      maxValue: nextLevel,
+      width:    2,
+      text:     badges.player_level,
+      colors:   [ badgeColor, LightenDarkenColor(badgeColor, -65) ],
+      duration: 500
     });
+
+    // TODO: Add a fallback for if location is not available
+    showLocation(
+      userData.loccountrycode,
+      userData.locstatecode,
+      userData.loccityid
+    );
 
     // Global scope so I don't have to make this request again if
     // I want to use the individual games later
@@ -154,12 +161,55 @@ function addDataToPage(info) {
   document.getElementById("steamId").innerText = info.steamid;
 }
 
+// https://stackoverflow.com/a/60784336/6456163
+async function showLocation(loccountrycode, locstatecode, loccityid) {
+  console.log(`Location info: ${loccountrycode}, ${locstatecode}, ${loccityid}`);
+
+  // File courtesy of https://github.com/Holek/steam-friends-countries
+  let location, zoom;
+  await fetch('./steam_countries.min.json')
+    .then(response => response.json())
+    .then(obj => {
+      let country = eval(`obj.${loccountrycode}`);
+      if (country) {
+        location = country.coordinates;
+        zoom = 4;
+      }
+
+      let state = eval(`country.states.${locstatecode}`);
+      if (state) {
+        location = state.coordinates;
+        zoom = 5;
+      }
+
+      let city = eval(`country.states.${locstatecode}.cities[${loccityid}]`);
+      if (city) {
+        location = city.coordinates;
+        zoom = 8;
+      }
+    })
+
+  let coords = location.split(',');
+  let map = new google.maps.Map(document.getElementById("map"), {
+    center: {
+      lat: parseInt(coords[0]),
+      lng: parseInt(coords[1])
+    },
+    zoom: zoom
+  });
+
+  // The center is slightly off, and this comes close to correcting it
+  map.panBy(-25, -100);
+}
+
+// TODO: Fix the 'show more' button
 async function showMoreFriends() {
   let friends = document.getElementById("friendList");
   let previousBound = window.friendCounter;
 
+  // Loads friends 10 at a time
   for (let i = window.friendCounter; i < window.friendslist.length; i++) {
-    if (i > previousBound + 10) break;
+    if (i > previousBound + 9) break;
     let friendInfo = await getData(window.friendslist[i].steamid);
     let friendCard = document.createElement("a");
     
