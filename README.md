@@ -57,6 +57,5 @@ shared on social. Data will likely have to be stored and refreshed periodically
 - Accept other forms of identification (SteamID, Steam64, Steam32) in the input field
 - Steal more features from some of [these sites](https://steamcommunity.com/sharedfiles/filedetails/?id=451698754),
 particularly [this one](https://steamdb.info/calculator/76561198069087631/)
-- Make the layout mobile-friendly, and have a graceful transition for the map when 
-the window width drops below 1000px
+- Continue improving the mobile layout
 - Find a way to speed up the loading of the massive JSON location file
