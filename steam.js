@@ -112,7 +112,11 @@ async function displayData(steamid) {
     // Global scope so I don't have to make this request again if
     // I want to use the individual games later
     window.games = await getOwnedGames(steamid);
-    document.getElementById("games").innerText = `Owned games: ${window.games.game_count}`;
+    let playedGames = window.games.games.filter(game => game.playtime_forever > 0);
+    let playedRatio = (playedGames.length / window.games.game_count * 100).toFixed(1);
+    let gamesText = document.getElementById("games");
+    gamesText.innerText = `Played games: ${playedGames.length}/${window.games.game_count}`;
+    gamesText.title = `You've played ${playedRatio}% of your games!`;
 
     window.friendslist = await getFriendsList(steamid);
     window.friendCounter = 0;
@@ -190,7 +194,6 @@ async function showLocation(loccountrycode, locstatecode, loccityid) {
   map.panBy(-25, -100);
 }
 
-// TODO: Fix the 'show more' button
 async function showMoreFriends() {
   let friends = document.getElementById("friendList");
   let previousBound = window.friendCounter;
