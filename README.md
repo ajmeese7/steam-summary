@@ -10,7 +10,7 @@
    <img src="https://img.shields.io/static/v1?label=%F0%9F%8C%9F&message=If%20Useful&style=style=flat&color=BC4E99" alt="Star Badge"/>
 </p>
 
-![Steam Summary preview](https://user-images.githubusercontent.com/17814535/91070783-e08bd080-e5fc-11ea-9abc-a64f53a12b65.png)
+![Steam Summary preview](https://user-images.githubusercontent.com/17814535/91184061-cd870800-e6b1-11ea-9a6f-be739c4b46ff.png)
 
 I looked around for a while for a good Steam profile visualizer and left disappointed, 
 so I started working my own.
