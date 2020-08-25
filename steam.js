@@ -102,7 +102,7 @@ async function displayData(steamid) {
       duration: 500
     });
 
-    // TODO: Add a fallback for if location is not available
+    if (userData.loccountrycode)
     showLocation(
       userData.loccountrycode,
       userData.locstatecode,
@@ -171,30 +171,18 @@ async function showLocation(loccountrycode, locstatecode, loccityid) {
     .then(response => response.json())
     .then(obj => {
       let country = eval(`obj.${loccountrycode}`);
-      if (country) {
-        location = country.coordinates;
-        zoom = 4;
-      }
+      if (country) location = country.coordinates, zoom = 4;
 
       let state = eval(`country.states.${locstatecode}`);
-      if (state) {
-        location = state.coordinates;
-        zoom = 5;
-      }
+      if (state) location = state.coordinates, zoom = 5;
 
       let city = eval(`country.states.${locstatecode}.cities[${loccityid}]`);
-      if (city) {
-        location = city.coordinates;
-        zoom = 8;
-      }
+      if (city) location = city.coordinates, zoom = 8;
     })
 
-  let coords = location.split(',');
+  let [x, y] = location.split(',').map(num => parseInt(num));
   let map = new google.maps.Map(document.getElementById("map"), {
-    center: {
-      lat: parseInt(coords[0]),
-      lng: parseInt(coords[1])
-    },
+    center: { lat: x, lng: y },
     zoom: zoom
   });
 
