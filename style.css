@@ -156,13 +156,13 @@ a {
   margin-left: 7.5px;
 }
 .friendCard:last-of-type {
-  margin-bottom: 15px !important;
+  margin-bottom: 30px !important;
 }
 
 /* TODO: Style this in the DOM so there is no overlapping */
 #showMore {
   position: relative;
-  top: -35px;
+  top: -27px;
   right: 18px;
   float: right;
   color: white;
