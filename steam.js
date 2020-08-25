@@ -55,12 +55,12 @@ function getFriendsList(id) {
 }
 
 function getBadges(id) {
-  const badges = async () => {
+  const badgeInfo = async () => {
     const result = await $.getJSON('proxy.php', { method: 'getBadges', steamid: id }, (res) => res);
     return result.response;
   }
 
-  return (async () => await badges() )();
+  return (async () => await badgeInfo() )();
 }
 
 function getOwnedGames(id) {
@@ -81,15 +81,15 @@ async function displayData(steamid) {
 
   // Methods that only work if profile is public (3)
   if (userData.communityvisibilitystate == 3) {
-    // TODO: Do something with actual badges
-    let badges = await getBadges(steamid);
-    document.getElementById("level").title = `Total XP: ${badges.player_xp}`;
+    // TODO: Create an API to retrieve Steam badge images
+    let badgeInfo = await getBadges(steamid);
+    document.getElementById("level").title = `Total XP: ${badgeInfo.player_xp}`;
 
     // NOTE: Can also make a horizontal display like the one here if I want;
     // https://steamdb.info/calculator/76561198069087631/
-    let progress = badges.player_xp - badges.player_xp_needed_current_level;
-    let nextLevel = progress + badges.player_xp_needed_to_level_up;
-    let badgeColor = getBadgeColor(badges.player_level);
+    let progress = badgeInfo.player_xp - badgeInfo.player_xp_needed_current_level;
+    let nextLevel = progress + badgeInfo.player_xp_needed_to_level_up;
+    let badgeColor = getBadgeColor(badgeInfo.player_level);
     Circles.create({
       // https://github.com/lugolabs/circles
       id:       'level-circle',
@@ -97,7 +97,7 @@ async function displayData(steamid) {
       value:    progress,
       maxValue: nextLevel,
       width:    2,
-      text:     badges.player_level,
+      text:     badgeInfo.player_level,
       colors:   [ badgeColor, LightenDarkenColor(badgeColor, -65) ],
       duration: 500
     });
