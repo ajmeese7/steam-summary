@@ -194,6 +194,9 @@ async function showLocation(loccountrycode, locstatecode, loccityid) {
   map.panBy(-25, -100);
 }
 
+// IDEA: This could be a sidebar that infinitely scrolls, or shows the top
+// five friends and links to a separate page with all the friends, or links
+// to the actual Steam friends list...
 async function showMoreFriends() {
   let friends = document.getElementById("friendList");
   let previousBound = window.friendCounter;
@@ -207,7 +210,7 @@ async function showMoreFriends() {
     friendCard.href = friendInfo.profileurl;
     friendCard.setAttribute('target', '_blank');
     friendCard.classList.add("friendCard", "faded-out", "col-xs-12", "col-sm-6", "col-md-4", "col-lg-3");
-    friendCard.innerHTML += `<img src='${friendInfo.avatarmedium}' />`;
+    friendCard.innerHTML += `<img title='${friendInfo.personaname}' src='${friendInfo.avatarmedium}' />`;
     friendCard.innerHTML += `<p class='friendName'>${friendInfo.personaname}</p>`; // TODO: Content w/ innerText
     friends.appendChild(friendCard);
 
