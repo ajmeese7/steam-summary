@@ -58,14 +58,3 @@ between the classic Steam interface and this [GitHub profile visualizer](https:/
 Steam has these [two](https://developer.valvesoftware.com/wiki/Steam_Web_API#GetPlayerSummaries_.28v0002.29) 
 [APIs](https://partner.steamgames.com/doc/webapi/IPlayerService) that allow me to get the info I need for this project.
 If you're looking for a place to start adding to this project, look for something I haven't added and get on it!
-
-### TODO
-- Add a playtime graph like [this](https://profile-summary-for-github.com/user/ajmeese7)
-- Show location by using [this project](https://github.com/Holek/steam-friends-countries)
-- Create player-specific URLs that can be visited by anyone, so profiles can be
-shared on social. Data will likely have to be stored and refreshed periodically
-- Accept other forms of identification (SteamID, Steam64, Steam32) in the input field
-- Steal more features from some of [these sites](https://steamcommunity.com/sharedfiles/filedetails/?id=451698754),
-particularly [this one](https://steamdb.info/calculator/76561198069087631/)
-- Continue improving the mobile layout
-- Find a way to speed up the loading of the massive JSON location file
